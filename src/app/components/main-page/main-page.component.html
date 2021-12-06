@@ -1,0 +1,139 @@
+<div class="container">
+
+  <div style="margin-top: 10vh">
+    TOTAL: {{totalPrice}} Bs.
+  </div>
+
+  <div *ngIf="stepOne === true" class="step-1">
+    <div class="card-container" style="display: flex; justify-content: space-around">
+      <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboList">
+        <img class="card-img-top" src="../../../assets/images/combos/{{combo.id}}.jpg"
+             height="200px" alt="{{combo.description}}">
+        <div class="card-body">
+          <h5 class="card-title">{{combo.comboType}}</h5>
+          <p class="card-text">{{combo.description}}</p>
+          <p class="card-text">{{combo.price}} Bs.</p>
+          <div style="display: flex; justify-content: space-around">
+            <button class="btn btn-primary" (click)="addCombo(combo.id)">+</button>
+            <p *ngIf="combo.id === 1">{{comboBasicControlList.length}}</p>
+            <p *ngIf="combo.id === 2">{{comboFamiliarControlList.length}}</p>
+            <p *ngIf="combo.id === 3">{{comboEspecialControlList.length}}</p>
+            <button class="btn btn-danger" (click)="removeCombo(combo.id)">-</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 10vh; margin-left: 100%">
+      <button class="btn btn-primary" (click)="nextStepTwo()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div *ngIf="stepTwo === true" class="step-2">
+    <div class="card-container" style="display: flex; justify-content: space-around">
+      <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboBasicControlList">
+        <img class="card-img-top" src="../../../assets/images/combos/{{combo.comboId}}.jpg"
+             height="200px" alt="{{combo.comboId}}">
+        <div class="card-body">
+          <h5 class="card-title">Combo Básico</h5>
+          <div>
+            <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
+              <p style="width: 10vh">{{portion.description}}</p>
+              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
+              <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
+              <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
+              <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
+              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-container" style="display: flex; justify-content: space-around">
+      <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboFamiliarControlList">
+        <img class="card-img-top" src="../../../assets/images/combos/{{combo.comboId}}.jpg"
+             height="200px" alt="{{combo.comboId}}">
+        <div class="card-body">
+          <h5 class="card-title">Combo Familiar</h5>
+          <div>
+            <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
+              <p style="width: 10vh">{{portion.description}}</p>
+              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
+              <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
+              <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
+              <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
+              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-container" style="display: flex; justify-content: space-around">
+      <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboEspecialControlList">
+        <img class="card-img-top" src="../../../assets/images/combos/{{combo.comboId}}.jpg"
+             height="200px" alt="{{combo.comboId}}">
+        <div class="card-body">
+          <h5 class="card-title">Combo Especial</h5>
+          <div>
+            <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
+              <p style="width: 10vh">{{portion.description}}</p>
+              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
+              <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
+              <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
+              <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
+              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 10vh; justify-content: space-around;">
+      <button class="btn btn-danger" style="float: left" (click)="backStepOne()">Atras</button>
+      <button class="btn btn-primary" style="float: right" (click)="nextStepThree()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+  <div *ngIf="stepThree === true" class="step-3">
+
+    <div style="margin-top: 5vh;">Resumen</div>
+    <div style="border: black 1px solid; padding: 2vh;">
+      <p *ngFor="let combo of comboBasicControlList">
+        <strong>Combo Básico:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+      </p>
+      <p *ngFor="let combo of comboFamiliarControlList">
+        <strong>Combo Familiar:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+      </p>
+      <p *ngFor="let combo of comboEspecialControlList">
+        <strong>Combo Especial:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+      </p>
+    </div>
+
+    <form style="margin-top: 5vh;">
+      <div class="form-group">
+        <label for="fullName">Nombre completo</label>
+        <input type="text" [(ngModel)]="fullName" name="fullName" class="form-control" id="fullName" placeholder="Ingrese su nombre completo">
+      </div>
+      <div class="form-group">
+        <label for="nit">NIT</label>
+        <input type="text" [(ngModel)]="nit" name="nit" class="form-control" id="nit" placeholder="Ingrese su NIT">
+      </div>
+    </form>
+
+    <div style="margin-top: 10vh;">
+      <button class="btn btn-danger" style="float: left" (click)="backStepTwo()">Atras</button>
+      <button class="btn btn-primary" style="float: right" (click)="pay()">Pagar</button>
+    </div>
+
+  </div>
+
+</div>
