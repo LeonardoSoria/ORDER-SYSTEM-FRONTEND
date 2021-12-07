@@ -5,6 +5,7 @@ import {RegisterSale} from '../../interfaces/registerSale.interface';
 import {Portion} from '../../interfaces/portion.interface';
 import {Invoice} from '../../interfaces/invoice.interface';
 import {RegisterSaleDTO} from '../../interfaces/registerSaleDTO.interface';
+import {AlertService} from '../../ng-alerts/alert.service';
 
 @Component({
   selector: 'app-main-page',
@@ -25,10 +26,11 @@ export class MainPageComponent implements OnInit {
 
   fullName = '';
   nit = '';
+  saleNumber = 1;
 
   totalPrice = 0;
 
-  constructor(private service: ApiService) {
+  constructor(private service: ApiService, private alert: AlertService) {
   }
 
   ngOnInit(): void {
@@ -306,7 +308,7 @@ export class MainPageComponent implements OnInit {
     };
 
     this.service.registerSale(sale).subscribe(value => {
-      console.log(value);
+      this.saleNumber++;
       window.print();
       this.stepOne = true;
       this.stepTwo = false;
@@ -316,15 +318,22 @@ export class MainPageComponent implements OnInit {
       this.comboBasicControlList = [];
       this.comboFamiliarControlList = [];
       this.comboEspecialControlList = [];
+      this.fullName = '';
+      this.nit = '';
+      this.alert.success('El pago se realizó exitosamente', 'Compra exitosa');
     });
   }
 
   nextStepTwo(): void {
-    this.stepOne = false;
-    this.stepTwo = true;
-    this.service.getAllPortions().subscribe(data => {
-      this.portionList.push(...data);
-    });
+    if (this.comboBasicControlList.length > 0 || this.comboFamiliarControlList.length > 0 || this.comboEspecialControlList.length > 0) {
+      this.stepOne = false;
+      this.stepTwo = true;
+      this.service.getAllPortions().subscribe(data => {
+        this.portionList.push(...data);
+      });
+    } else {
+      this.alert.info('Debe seleccionar un combo para continuar', 'Seleccione un combo');
+    }
   }
 
   backStepOne(): void {

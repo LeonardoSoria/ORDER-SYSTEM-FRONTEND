@@ -1,0 +1,8 @@
+@media print {
+  .btn, form, .totalPrice, .resumen {
+    display: none;
+  }
+  .showForPrint, .ticket-line, .factura {
+    display: block!important;
+  }
+}

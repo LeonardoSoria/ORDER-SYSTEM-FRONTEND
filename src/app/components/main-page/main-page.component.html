@@ -1,10 +1,10 @@
 <div class="container">
 
-  <div style="margin-top: 10vh">
-    TOTAL: {{totalPrice}} Bs.
+  <div class="totalPrice" style="margin-top: 10vh; font-size: 20px;">
+    <strong>TOTAL:</strong> {{totalPrice}} Bs.
   </div>
 
-  <div *ngIf="stepOne === true" class="step-1">
+  <div *ngIf="stepOne" class="step-1">
     <div class="card-container" style="display: flex; justify-content: space-around">
       <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboList">
         <img class="card-img-top" src="../../../assets/images/combos/{{combo.id}}.jpg"
@@ -31,7 +31,7 @@
 
   <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-  <div *ngIf="stepTwo === true" class="step-2">
+  <div *ngIf="stepTwo" class="step-2">
     <div class="card-container" style="display: flex; justify-content: space-around">
       <div class="card" style="width: 15vw; margin-top: 10%" *ngFor="let combo of comboBasicControlList">
         <img class="card-img-top" src="../../../assets/images/combos/{{combo.comboId}}.jpg"
@@ -40,13 +40,13 @@
           <h5 class="card-title">Combo Básico</h5>
           <div>
             <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
-              <p style="width: 10vh">{{portion.description}}</p>
-              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <p style="width: 10vh">{{portion.description}} {{portion.price}} Bs.</p>
+              <span class="material-icons" style="cursor: pointer;" (click)="addPortion(combo.id, combo.comboId, portion.id)">add</span>
               <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
               <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
               <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
               <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
-              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+              <span class="material-icons" style="cursor: pointer;" (click)="removePortion(combo.id, combo.comboId, portion.id)">remove</span>
             </div>
           </div>
         </div>
@@ -62,12 +62,12 @@
           <div>
             <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
               <p style="width: 10vh">{{portion.description}}</p>
-              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <span class="material-icons" style="cursor: pointer;" (click)="addPortion(combo.id, combo.comboId, portion.id)">add</span>
               <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
               <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
               <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
               <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
-              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+              <span class="material-icons" style="cursor: pointer;" (click)="removePortion(combo.id, combo.comboId, portion.id)">remove</span>
             </div>
           </div>
         </div>
@@ -83,19 +83,19 @@
           <div>
             <div style="display: flex; justify-content: space-around" *ngFor="let portion of portionList">
               <p style="width: 10vh">{{portion.description}}</p>
-              <button class="btn btn-primary" (click)="addPortion(combo.id, combo.comboId, portion.id)">+</button>
+              <span class="material-icons" style="cursor: pointer;" (click)="addPortion(combo.id, combo.comboId, portion.id)">add</span>
               <p *ngIf="portion.id === 1">{{combo.tomatoList.length}}</p>
               <p *ngIf="portion.id === 2">{{combo.meatList.length}}</p>
               <p *ngIf="portion.id === 3">{{combo.cheeseList.length}}</p>
               <p *ngIf="portion.id === 4">{{combo.potatoList.length}}</p>
-              <button class="btn btn-danger" (click)="removePortion(combo.id, combo.comboId, portion.id)">-</button>
+              <span class="material-icons" style="cursor: pointer;" (click)="removePortion(combo.id, combo.comboId, portion.id)">remove</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div style="margin-top: 10vh; justify-content: space-around;">
+    <div style="margin-top: 10vh; padding-bottom: 20vh; justify-content: space-around;">
       <button class="btn btn-danger" style="float: left" (click)="backStepOne()">Atras</button>
       <button class="btn btn-primary" style="float: right" (click)="nextStepThree()">Siguiente</button>
     </div>
@@ -103,20 +103,39 @@
 
   <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-  <div *ngIf="stepThree === true" class="step-3">
+  <div *ngIf="stepThree" class="step-3">
 
-    <div style="margin-top: 5vh;">Resumen</div>
+    <div class="resumen" style="margin-top: 5vh;">Resumen</div>
+    <div class="factura" style="margin-top: 5vh; display: none">Factura</div>
     <div style="border: black 1px solid; padding: 2vh;">
+      <p class="showForPrint" style="display: none">Nombre: {{fullName}}</p>
+      <p class="showForPrint" style="display: none">NIT: {{nit}}</p>
       <p *ngFor="let combo of comboBasicControlList">
-        <strong>Combo Básico:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+        <strong>Combo Básico:</strong> Extra Tomates: {{combo.tomatoList.length}}, Extra Carne: {{combo.meatList.length}}, Extra Queso: {{combo.cheeseList.length}},
+        Extra Papas: {{combo.potatoList.length}}... {{25+combo.tomatoList.length*2+combo.meatList.length*10+combo.cheeseList.length*5+combo.potatoList.length*10}} Bs.
       </p>
       <p *ngFor="let combo of comboFamiliarControlList">
-        <strong>Combo Familiar:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+        <strong>Combo Familiar:</strong> Extra Tomates: {{combo.tomatoList.length}}, Extra Carne: {{combo.meatList.length}}, Extra Queso: {{combo.cheeseList.length}},
+        Extra Papas: {{combo.potatoList.length}}... {{40+combo.tomatoList.length*2+combo.meatList.length*10+combo.cheeseList.length*5+combo.potatoList.length*10}} Bs.
       </p>
       <p *ngFor="let combo of comboEspecialControlList">
-        <strong>Combo Especial:</strong> Tomates: {{combo.tomatoList.length}}, Carnes: {{combo.meatList.length}}, Queso: {{combo.cheeseList.length}}, Papas: {{combo.potatoList.length}}
+        <strong>Combo Especial:</strong> Extra Tomates: {{combo.tomatoList.length}}, Extra Carne: {{combo.meatList.length}}, Extra Queso: {{combo.cheeseList.length}},
+        Extra Papas: {{combo.potatoList.length}}... {{50+combo.tomatoList.length*2+combo.meatList.length*10+combo.cheeseList.length*5+combo.potatoList.length*10}} Bs.
       </p>
+      <div class="showForPrint" style="margin-top: 10vh; display: none;">
+        TOTAL: {{totalPrice}} Bs.
+      </div>
     </div>
+
+    <div class="ticket-line" style="border: black 1px solid; width: 100%; display: none;">
+    </div>
+
+    <div class="showForPrint" style="border: black 1px solid; padding: 2vh; display: none">
+      <p class="showForPrint" style="display: none">Número de ticket: {{saleNumber}}</p>
+      <p class="showForPrint" style="display: none">Nombre: {{fullName}}</p>
+    </div>
+
+
 
     <form style="margin-top: 5vh;">
       <div class="form-group">
@@ -127,11 +146,12 @@
         <label for="nit">NIT</label>
         <input type="text" [(ngModel)]="nit" name="nit" class="form-control" id="nit" placeholder="Ingrese su NIT">
       </div>
+      <p>Una vez haya realizado el pago mediante POS, presione en el boton de finalziar para generar su factura y ticket, gracias!</p>
     </form>
 
     <div style="margin-top: 10vh;">
       <button class="btn btn-danger" style="float: left" (click)="backStepTwo()">Atras</button>
-      <button class="btn btn-primary" style="float: right" (click)="pay()">Pagar</button>
+      <button class="btn btn-primary" style="float: right" (click)="pay()">Finalizar</button>
     </div>
 
   </div>
